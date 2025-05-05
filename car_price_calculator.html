@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حاسبة ثمن السيارة المستعملة</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f2f2f2; text-align: center; padding: 30px; direction: rtl; }
+    .container { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { color: #333; margin-bottom: 20px; }
+    label { display: block; margin: 15px 0 5px; text-align: right; }
+    input, select { width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; }
+    button { background: #2e8b57; color: white; padding: 12px 20px; font-size: 16px; border: none; border-radius: 5px; margin-top: 20px; cursor: pointer; }
+    button:hover { background: #246b45; }
+    .result { margin-top: 25px; font-size: 20px; font-weight: bold; color: #2e8b57; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>حاسبة ثمن السيارة المستعملة</h1>
+    <label for="price">ثمن السيارة جديدة (درهم):</label>
+    <input type="number" id="price" placeholder="مثال: 160000">
+
+    <label for="age">عمر السيارة (بالسنوات):</label>
+    <input type="number" id="age" placeholder="مثال: 3">
+
+    <label for="km">عدد الكيلومترات:</label>
+    <input type="number" id="km" placeholder="مثال: 80000">
+
+    <label for="condition">الحالة العامة:</label>
+    <select id="condition">
+      <option value="1">ممتازة</option>
+      <option value="0.8">جيدة</option>
+      <option value="0.6">متوسطة</option>
+      <option value="0.4">ضعيفة</option>
+    </select>
+
+    <button onclick="calculatePrice()">احسب الثمن التقريبي</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculatePrice() {
+      const P0 = parseFloat(document.getElementById('price').value);
+      const A = parseFloat(document.getElementById('age').value);
+      const K = parseFloat(document.getElementById('km').value);
+      const C = parseFloat(document.getElementById('condition').value);
+
+      if (isNaN(P0) || isNaN(A) || isNaN(K) || isNaN(C)) {
+        document.getElementById('result').innerText = 'يرجى إدخال جميع القيم بشكل صحيح';
+        return;
+      }
+
+      const d = 0.10;
+      const k = 0.05;
+      const marketAdjustment = 1.15;
+
+      const estimatedPrice = P0 * Math.pow((1 - d), A) * (1 - k * (K / 100000)) * C * marketAdjustment;
+      document.getElementById('result').innerText = `الثمن التقريبي للسيارة: ${estimatedPrice.toFixed(0)} درهم`;
+    }
+  </script>
+</body>
+</html>
